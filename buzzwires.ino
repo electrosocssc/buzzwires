@@ -6,7 +6,8 @@ void setup()
 {
    buzzwire.set_CS_AutocaL_Millis(0xFFFFFFFF);     // turn off autocalibrate
    Serial.begin(9600);
-   pinMode(13, OUTPUT); // Set the on-board LED as indicator
+   pinMode(LED_BUILTIN, OUTPUT); // Set the on-board LED as indicator
+   pinMode(12, OUTPUT); // Buzzer as indicator
    // Calibration
 
    for (int i = 0 ; i < 100 ; i++ ){
@@ -23,10 +24,12 @@ void loop()
     long total =  buzzwire.capacitiveSensor(60); // Read the sensed capacitance summed over 60 samples
 
     if ( total > max_cal + 50 ) { // 50 is the noise threshold
-      digitalWrite(13, HIGH);  // Turn on onboard LED for 1s and turn it off again. 
+      digitalWrite(LED_BUILTIN, HIGH);  // Turn on onboard LED for 1s and turn it off again. 
+      digitalWrite(12, HIGH);
       delay(1000);
-      digitalWrite(13, LOW);
+      digitalWrite(12, LOW);
+      digitalWrite(LED_BUILTIN, LOW);
     }
-    Serial.println(total);
+//    Serial.println(total); // Debugging    
     delay(100);                             // arbitrary delay
 }
